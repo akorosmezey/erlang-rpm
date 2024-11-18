@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%global upstream_ver 22.3.4.21
-%global package_ver  22.3.4.21
+%global upstream_ver 22.3.4.27
+%global package_ver  22.3.4.27
 %global package_ver_release 1
 
 %define OSL_File_Name                   Erlang_ASL2_LICENSE.txt
@@ -107,7 +107,7 @@ chmod 644 lib/ssl/examples/src/Makefile
 %ifarch sparcv9 sparc64
 CFLAGS="$RPM_OPT_FLAGS -mcpu=ultrasparc -fno-strict-aliasing" %configure %{conf_flags}
 %else
-CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing" %configure %{conf_flags}
+CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing" %configure %{conf_flags} --disable-systemd
 %endif
 
 
@@ -116,21 +116,8 @@ make clean
 
 cp %{S:2} %{_pivotal_license_file}
 
-touch lib/common_test/SKIP
-touch lib/debugger/SKIP
-touch lib/dialyzer/SKIP
-touch lib/diameter/SKIP
-touch lib/edoc/SKIP
-touch lib/et/SKIP
-touch lib/erl_docgen/SKIP
-touch lib/ftp/SKIP
-touch lib/jinterface/SKIP
-touch lib/megaco/SKIP
-touch lib/observer/SKIP
-touch lib/odbc/SKIP
-touch lib/ssh/SKIP
-touch lib/tftp/SKIP
-touch lib/wx/SKIP
+# touch lib/wx/SKIP
+# touch lib/debugger/SKIP
 
 make
 
@@ -330,17 +317,42 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/erlang/lib/ssl-*/src
 
 
-%dir %{_libdir}/erlang/lib/stdlib-*/
-%{_libdir}/erlang/lib/stdlib-*/ebin
-%{_libdir}/erlang/lib/stdlib-*/include
-%{_libdir}/erlang/lib/stdlib-*/src
+%{_libdir}/erlang/lib/stdlib-*/
 
 %{_libdir}/erlang/lib/tools-*/
 
 %{_libdir}/erlang/lib/xmerl-*/
 
+%{_libdir}/erlang/lib/common_test-*/
+
+%{_libdir}/erlang/lib/debugger-*/
+
+%{_libdir}/erlang/lib/dialyzer-*/
+
+%{_libdir}/erlang/lib/diameter-*/
+
+%{_libdir}/erlang/lib/edoc-*/
+
+%{_libdir}/erlang/lib/et-*/
+
+%{_libdir}/erlang/lib/erl_docgen-*/
+
+%{_libdir}/erlang/lib/ftp-*/
+
+%{_libdir}/erlang/lib/megaco-*/
+
+%{_libdir}/erlang/lib/observer-*/
+
+%{_libdir}/erlang/lib/ssh-*/
+
+%{_libdir}/erlang/lib/tftp-*/
+
+%{_libdir}/erlang/lib/wx-*/
 
 %changelog
+* Fri Nov 4 2024 Akos Korosmezey <akos.korosmezey@otpbank.hu> - 22.3.4.27
+- Update to Erlang/OTP 22.3.4.27. Includes all apps except odbc and jinterface
+
 * Sat Sep 4 2021 Michael Klishin <klishinm@vmware.com> - 22.3.4.21
 - Update to Erlang/OTP 22.3.4.21.
 
